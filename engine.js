@@ -15,3 +15,14 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     5,10,10,-20,-20,10,10,5, //STARTING RANK
     0,0,0,0,0,0,0,0 // 1ST RANK
   ];
+
+  const PST_KNIGHT = [
+    -50,-40,-30,-30,-30,-30,-40,-50, //EIGHTH RANK, weakest positions for knights are on corners of board
+    -40,-20,  0,  0,  0,  0,-20,-40,
+    -30,  0, 10, 15, 15, 10,  0,-30,
+    -30,  5, 15, 20, 20, 15,  5,-30, //knights are strongest in center of board, as they have more legal moves
+    -30,  0, 15, 20, 20, 15,  0,-30,
+    -30,  5, 10, 15, 15, 10,  5,-30,
+    -40,-20,  0,  5,  5,  0,-20,-40,
+    -50,-40,-30,-30,-30,-30,-40,-50 // 1ST RANK
+  ];
