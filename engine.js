@@ -59,3 +59,15 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     -10,  0,  5,  0,  0,  0,  0,-10,
     -20,-10,-10, -5, -5,-10,-10,-20 // 1ST RANK
   ];
+
+  const PST_KING = [
+    20, 30, 10,  0,  0, 10, 30, 20, //EIGHTH RANK, king is strong on seventh and eighth rank, typically indicates favorable endgame postion.
+    20, 20,  0,  0,  0,  0, 20, 20,
+   -10,-20,-20,-20,-20,-20,-20,-10,
+   -20,-30,-30,-40,-40,-30,-30,-20,
+   -30,-40,-40,-50,-50,-40,-40,-30,//unlike other pieces king is in better positioon out of middle of the board and towards sides of board
+   -30,-40,-40,-50,-50,-40,-40,-30,
+   -30,-40,-40,-50,-50,-40,-40,-30,
+   -30,-40,-40,-50,-50,-40,-40,-30 // 1ST RANK
+ ];
+ 
