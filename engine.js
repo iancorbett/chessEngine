@@ -75,4 +75,10 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     p: PST_PAWN, n: PST_KNIGHT, b: PST_BISHOP,
     r: PST_ROOK, q: PST_QUEEN, k: PST_KING
   };
+
+  function pstValue(pieceType, idx, color) {
+    const table = PST[pieceType];
+    if (!table) return 0;
+    return color === 'w' ? table[idx] : table[63 - idx]; //use mirrored index for black
+  }
  
