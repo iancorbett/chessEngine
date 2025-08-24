@@ -48,3 +48,14 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
    -5, 0, 0, 0, 0, 0, 0,-5,
     0, 0, 0, 5, 5, 0, 0, 0 // 1ST RANK
  ];
+
+ const PST_QUEEN = [
+    -20,-10,-10, -5, -5,-10,-10,-20, //EIGHTH RANK, weakest spot for queen is on corners of board
+    -10,  0,  0,  0,  0,  0,  0,-10,
+    -10,  0,  5,  5,  5,  5,  0,-10,
+     -5,  0,  5,  5,  5,  5,  0, -5, //queen is strongest ttowards middle of board, as it attacks more squares
+      0,  0,  5,  5,  5,  5,  0, -5,
+    -10,  5,  5,  5,  5,  5,  0,-10,
+    -10,  0,  5,  0,  0,  0,  0,-10,
+    -20,-10,-10, -5, -5,-10,-10,-20 // 1ST RANK
+  ];
