@@ -26,3 +26,14 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     -40,-20,  0,  5,  5,  0,-20,-40,
     -50,-40,-30,-30,-30,-30,-40,-50 // 1ST RANK
   ];
+
+  const PST_BISHOP = [
+    -20,-10,-10,-10,-10,-10,-10,-20, //EIGHTH RANK, weakest positions for bishops are on corners of board
+    -10,  0,  0,  0,  0,  0,  0,-10,
+    -10,  0,  5, 10, 10,  5,  0,-10,
+    -10,  5,  5, 10, 10,  5,  5,-10,
+    -10,  0, 10, 10, 10, 10,  0,-10,  //bishops are strongest in center of board, as they are able to attack more squares
+    -10, 10, 10, 10, 10, 10, 10,-10,
+    -10,  5,  0,  0,  0,  0,  5,-10,
+    -20,-10,-10,-10,-10,-10,-10,-20 // 1ST RANK
+  ];
