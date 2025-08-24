@@ -70,4 +70,9 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
    -30,-40,-40,-50,-50,-40,-40,-30,
    -30,-40,-40,-50,-50,-40,-40,-30 // 1ST RANK
  ];
+
+ const PST = {
+    p: PST_PAWN, n: PST_KNIGHT, b: PST_BISHOP,
+    r: PST_ROOK, q: PST_QUEEN, k: PST_KING
+  };
  
