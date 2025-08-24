@@ -37,3 +37,14 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     -10,  5,  0,  0,  0,  0,  5,-10,
     -20,-10,-10,-10,-10,-10,-10,-20 // 1ST RANK
   ];
+
+  const PST_ROOK = [
+    0, 0, 0, 0, 0, 0, 0, 0, //EIGHTH RANK
+    5,10,10,10,10,10,10, 5, //seventh rank, strongest rank for rooks, especially if theyre connected on the seventh rank
+   -5, 0, 0, 0, 0, 0, 0,-5,
+   -5, 0, 0, 0, 0, 0, 0,-5,
+   -5, 0, 0, 0, 0, 0, 0,-5,
+   -5, 0, 0, 0, 0, 0, 0,-5,
+   -5, 0, 0, 0, 0, 0, 0,-5,
+    0, 0, 0, 5, 5, 0, 0, 0 // 1ST RANK
+ ];
