@@ -203,3 +203,21 @@ function findBestMove(fen, maxDepth, moveTimeMs) {
   
     return { bestMove, bestScore, nodes };
   }
+
+  self.onmessage = (e) => {
+    const { type, fen, timeMs, depth } = e.data || {};
+    if (type === 'go') {
+      try {
+        const { bestMove, bestScore, nodes } = findBestMove(fen, depth ?? 6, timeMs ?? 1000);
+        self.postMessage({
+          type: 'bestmove',
+          move: bestMove ? bestMove.san : null,
+          uci: bestMove ? `${bestMove.from}${bestMove.to}${bestMove.promotion || ''}` : null,
+          scoreCp: bestScore,
+          nodes
+        });
+      } catch (err) {
+        self.postMessage({ type: 'error', error: String(err) });
+      }
+    }
+  };
