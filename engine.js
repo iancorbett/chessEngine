@@ -164,3 +164,42 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     }
     return best;
 }
+
+function findBestMove(fen, maxDepth, moveTimeMs) {
+    const chess = new Chess(fen); //fen => Forsythe Edwards Notation, basically gives one line snapshot of game, icluing whose turn it is, catlingm en pasant, etc
+    stopTime = Date.now() + (moveTimeMs ?? 1000);
+    nodes = 0;
+  
+    let bestMove = null;
+    let bestScore = -INF;
+    // Iterative deepening for better anytime results
+    //remembers best move so far, starts at depth1 and  and continues to go deeper afterwards
+    for (let d = 1; d <= (maxDepth ?? 6); d++) {
+      let localBest = null;
+      let localScore = -INF;
+  
+      // Re-generate and order at each depth
+      const legal = chess.moves({ verbose: true })
+        .sort((a, b) => mvpLva(b) - mvpLva(a));
+  
+      for (const mv of legal) {
+        if (Date.now() >= stopTime) break;
+        chess.move(mv);
+        const score = -search(chess, d - 1, -INF, INF);
+        chess.undo();
+  
+        if (score > localScore) {
+          localScore = score;
+          localBest = mv;
+        }
+      }
+  
+      if (Date.now() >= stopTime && bestMove) break;
+      if (localBest) {
+        bestMove = localBest;
+        bestScore = localScore;
+      }
+    }
+  
+    return { bestMove, bestScore, nodes };
+  }
