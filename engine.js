@@ -4,6 +4,8 @@ import { Chess } from 'chess.js'; //PACKAGE HANDLES LEGAL MOVES AND BOARD STATE
 //CHECKMATE DETECTION WILL BE HANDLED DIFFERENTLY LATER
 // KING EVAL COMES FROM KING SAFETY, POSITION, ETC
 const VALUES = { p:100, n:320, b:330, r:500, q:900, k:0 }; //PAWNS, KNIGHTS, BISHOPS, ROOK, QUEEN, KING
+const MATE = 1_000_000;
+const INF = 1_000_000_000;
 
 const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     0,0,0,0,0,0,0,0, //EIGHTH RANK/ PROMOTION RANK
@@ -91,7 +93,7 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
         const sq = board[r][c];
         if (!sq) continue;
         const idx = (7 - r) * 8 + c; // map so a1=0..h8=63
-        const base = VAL[sq.type];
+        const base = VALUES[sq.type];
         const pst = pstValue(sq.type, idx, sq.color);
         const s = (sq.color === 'w' ? 1 : -1) * (base + pst);
         score += s;
@@ -134,3 +136,17 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     }
     return alpha;
   }
+
+  function search(chess, depth, alpha, beta) {
+    if (Date.now() >= stopTime) return evaluate(chess); //return evaluation if thinking time has expired
+    const legal = chess.moves({ verbose: true }); //return all legal moves with metadata
+    if (depth === 0) return quiescence(chess, alpha, beta);
+  
+    if (legal.length === 0) {
+      // checkmate or stalemate
+      if (chess.in_check()) return -MATE; // bad for side to move
+      return 0; // stalemate
+    }
+  
+    nodes++; //increment amount of searches
+}
