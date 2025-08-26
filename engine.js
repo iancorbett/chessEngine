@@ -111,3 +111,26 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
 
   let nodes = 0;        // global counter: how many positions we’ve evaluated/searched
   let stopTime = 0;   // tracks time in miliseconds, limits how long computer can think
+
+  function quiescence(chess, alpha, beta) { //search until  no unbalanced captures are available
+    nodes++; // increment nodes as new postitions are searched
+    const standPat = evaluate(chess); //current eval
+    if (standPat >= beta) return beta; //beta is worst score opposing side may feasibly take, in this case our standpat is higher than beta, opponent wont play this line except for a blunder
+    if (standPat > alpha) alpha = standPat; //alpha is best capture for a side, if a better one is found, replace it
+  
+    //generate all legal moves and the filter by ones that are captures
+    let captures = chess.moves({ verbose: true }).filter(m => m.captured); //verbose: used in chess.js to provide necessary metadata about each move 
+    
+    captures.sort((a, b) => mvpLva(b) - mvpLva(a)); //search strongest captures first
+    //if return < 0, a comes before b, if return > 0, b comes before a
+  
+    for (const mv of captures) {
+      if (Date.now() >= stopTime) break; //end computer search after alloted time
+      chess.move(mv); //make the move
+      const score = -quiescence(chess, -beta, -alpha); //negative after move is made because we're now looking from opponents perspective
+      chess.undo(); //return board to the parent state
+      if (score >= beta) return beta;
+      if (score > alpha) alpha = score;
+    }
+    return alpha;
+  }
