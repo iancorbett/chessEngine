@@ -82,3 +82,24 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     return color === 'w' ? table[idx] : table[63 - idx]; //use mirrored index for black
   }
  
+  function evaluate(chess) {
+    // Material + PST + tiny mobility nudge (side to move)
+    let score = 0;
+    const board = chess.board(); // 8x8 array, rows: rank 8..1
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const sq = board[r][c];
+        if (!sq) continue;
+        const idx = (7 - r) * 8 + c; // map so a1=0..h8=63
+        const base = VAL[sq.type];
+        const pst = pstValue(sq.type, idx, sq.color);
+        const s = (sq.color === 'w' ? 1 : -1) * (base + pst);
+        score += s;
+      }
+    }
+    // Small mobility term (fast & cheap): moves for side-to-move minus opponent/2
+    const myMoves = chess.moves().length;
+    score += (chess.turn() === 'w' ? +1 : -1) * (myMoves * 2);
+  
+    return score;
+  }
