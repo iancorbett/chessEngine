@@ -108,3 +108,6 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     if (!mv.captured) return 0; //score non capture moves as 0 initially
     return (VAL[mv.captured] || 0) * 10 - (VAL[mv.piece] || 0); //returns higher score for more beneficial trades
   }
+
+  let nodes = 0;        // global counter: how many positions we’ve evaluated/searched
+  let stopTime = 0;   // tracks time in miliseconds, limits how long computer can think
