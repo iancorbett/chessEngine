@@ -103,3 +103,8 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
   
     return score;
   }
+
+  function mvpLva(mv) {//most valuable piece, least valuable atacker, searches captures first, seeks to capture most iportant enemy pieces with least valable piece possible
+    if (!mv.captured) return 0; //score non capture moves as 0 initially
+    return (VAL[mv.captured] || 0) * 10 - (VAL[mv.piece] || 0); //returns higher score for more beneficial trades
+  }
