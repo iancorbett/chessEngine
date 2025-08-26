@@ -149,4 +149,6 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     }
   
     nodes++; //increment amount of searches
+
+    legal.sort((a, b) => mvpLva(b) - mvpLva(a)); //return sorted moves by strength, same logic as before but this is for legal moves not just captures
 }
