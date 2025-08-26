@@ -151,4 +151,16 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
     nodes++; //increment amount of searches
 
     legal.sort((a, b) => mvpLva(b) - mvpLva(a)); //return sorted moves by strength, same logic as before but this is for legal moves not just captures
+
+    let best = -INF; 
+    for (const mv of legal) { //search all legal moves
+      if (Date.now() >= stopTime) break; //break out when thinking time expires
+      chess.move(mv); //make a move
+      const score = -search(chess, depth - 1, -beta, -alpha); //flip to negative after move is made, as we're looking from opponent's perspective
+      chess.undo(); // return to parent board state
+      if (score > best) best = score;
+      if (score > alpha) alpha = score;
+      if (alpha >= beta) break; // cutoff
+    }
+    return best;
 }
