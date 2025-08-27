@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <title>JS Chess Engine (vs You)</title>
 
-  <!-- Modern chessboard web component -->
+  <!-- Modern chessboard as a Web Component -->
   <script type="module" src="https://unpkg.com/chessboard-element?module"></script>
 
   <style>
     body { font-family: system-ui, sans-serif; padding: 20px; }
-    chess-board { width: 420px; margin-bottom: 12px; }
+    chess-board { width: 420px; margin-bottom: 12px; display: block; }
     #log { white-space: pre-wrap; font-family: ui-monospace, monospace; margin-top: 10px; }
     button { padding: 8px 12px; }
     input { padding: 4px 6px; width: 90px; }
@@ -31,13 +31,13 @@
   <div id="log"></div>
 
   <script type="module">
-    // Use ESM build of chess.js
+    // ESM build of chess.js
     import { Chess } from 'https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/esm/chess.js';
 
-    // Start the engine as a MODULE worker
-    const engine = new Worker('./engine.worker.js', { type: 'module' });
+    // Start the engine as a MODULE worker (engine.worker.js must also be ESM)
+    const engine = new Worker('./engine.js', { type: 'module' });
 
-    // Game state & UI elements
+    // Game state & UI
     const game = new Chess();
     const board = document.getElementById('board');
     const logEl = document.getElementById('log');
@@ -50,32 +50,36 @@
       logEl.textContent = (line + '\n' + logEl.textContent).slice(0, 8000);
     }
 
-    // Handle user drops on the board
+    // Handle user moves
     board.addEventListener('drop', (e) => {
       const { source, target, setAction } = e.detail;
 
-      // Try to make the move; snap back if illegal
-      const move = game.move({ from: source, to: target, promotion: 'q' });
-      if (!move) {
+      // same-square drop → snap back
+      if (source === target) {
         setAction('snapback');
         return;
       }
 
-      // Update board to the new FEN
-      board.setAttribute('position', game.fen());
-      appendLog(`You: ${move.san}`);
+      // Try to make the move (chess.js v1 may throw on illegal)
+      try {
+        const move = game.move({ from: source, to: target, promotion: 'q' });
+        if (!move) { setAction('snapback'); return; }  // safety if null is returned
 
-      // Let engine think
-      thinkForEngine();
+        board.setAttribute('position', game.fen());
+        appendLog(`You: ${move.san}`);
+        thinkForEngine();
+      } catch {
+        setAction('snapback');
+      }
     });
 
-    // Keep board synced after internal animations
+    // Keep board synced after animations
     board.addEventListener('snap-end', () => {
       board.setAttribute('position', game.fen());
     });
 
     function thinkForEngine() {
-      if (game.game_over()) return;
+      if (game.isGameOver()) return; // v1 API
       engine.postMessage({
         type: 'go',
         fen: game.fen(),
@@ -92,10 +96,14 @@
         const to   = msg.uci.slice(2, 4);
         const promotion = msg.uci.slice(4) || undefined;
 
-        const made = game.move({ from, to, promotion });
-        if (made) {
-          board.setAttribute('position', game.fen());
-          appendLog(`Engine: ${made.san}  (score ${msg.scoreCp}, nodes ${msg.nodes})`);
+        try {
+          const made = game.move({ from, to, promotion });
+          if (made) {
+            board.setAttribute('position', game.fen());
+            appendLog(`Engine: ${made.san}  (score ${msg.scoreCp}, nodes ${msg.nodes})`);
+          }
+        } catch (err) {
+          appendLog('Engine move invalid: ' + (err?.message || err));
         }
       } else if (msg.type === 'error') {
         appendLog('Engine error: ' + msg.error);

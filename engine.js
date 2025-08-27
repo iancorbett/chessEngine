@@ -3,7 +3,7 @@ import { Chess } from 'https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/esm/ches
 //KINGS VALUE SET TO ZERO, SINCE VALUE IS BASICALLY INFINITE THE EVALUATIONS WOULD MALFUNCTION IS AN EXTREMELY HIGH NUMBER WAS PLACED
 //CHECKMATE DETECTION WILL BE HANDLED DIFFERENTLY LATER
 // KING EVAL COMES FROM KING SAFETY, POSITION, ETC
-const VALUES = { p:100, n:320, b:330, r:500, q:900, k:0 }; //PAWNS, KNIGHTS, BISHOPS, ROOK, QUEEN, KING
+const VAL = { p:100, n:320, b:330, r:500, q:900, k:0 }; //PAWNS, KNIGHTS, BISHOPS, ROOK, QUEEN, KING
 const MATE = 1_000_000;
 const INF = 1_000_000_000;
 
@@ -93,7 +93,7 @@ const PST_PAWN = [ //CREATE 8X8 GRID LIKE A REAL BOARD, FROM WHITE'S POV
         const sq = board[r][c];
         if (!sq) continue;
         const idx = (7 - r) * 8 + c; // map so a1=0..h8=63
-        const base = VALUES[sq.type];
+        const base = VAL[sq.type];
         const pst = pstValue(sq.type, idx, sq.color);
         const s = (sq.color === 'w' ? 1 : -1) * (base + pst);
         score += s;
