@@ -40,7 +40,7 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
   - leaf → `quiescence` (captures only) to avoid horizon blunders  
 
 - **Move ordering**  
-  - Captures sorted by **Most Valuable Victim – Least Valuable Attacker (MVV-LVA)**  
+  - Captures sorted by **Most Valuable Piece – Least Valuable Attacker (MVV-LVA)**  
 
 - **Eval**  
   - Material (P=100, N=320, B=330, R=500, Q=900, K=0)  
