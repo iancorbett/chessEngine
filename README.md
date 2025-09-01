@@ -32,4 +32,24 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
 
 ---
 
+## How it works (short version)
+
+- **Search**  
+  - `search(position, depth, alpha, beta)` (negamax)  
+  - alpha–beta pruning  
+  - leaf → `quiescence` (captures only) to avoid horizon blunders  
+
+- **Move ordering**  
+  - Captures sorted by **Most Valuable Victim – Least Valuable Attacker (MVV-LVA)**  
+
+- **Eval**  
+  - Material (P=100, N=320, B=330, R=500, Q=900, K=0)  
+  - Piece-Square Tables (mirrored for black)  
+  - Tiny mobility term for side-to-move  
+
+- **Checkmate / stalemate**  
+  - No legal moves: if `isCheck()` → `-MATE`; else `0`  
+
+---
+
 
