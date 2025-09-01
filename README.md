@@ -52,4 +52,12 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
 
 ---
 
+ ## Credits
+
+- **chess.js**
+    - move generation/legality & FEN
+
+- **chessboard-element**
+    - web component board
+
 
