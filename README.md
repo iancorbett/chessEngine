@@ -6,6 +6,8 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
 
 ---
 
+<img width="465" height="903" alt="Screenshot 2025-10-01 at 12 10 15 AM" src="https://github.com/user-attachments/assets/3b6ce3fc-245c-4d87-b975-b7b3a66fb4cb" />
+
 ## Demo
 
 - Open `index.html` with Live Server (VS Code extension)  
