@@ -2,7 +2,7 @@
 
 Tiny chess engine I built in JavaScript. It runs in a Web Worker, uses [chess.js](https://github.com/jhlywa/chess.js) for rules, and a modern web component (`<chess-board>`) for the UI.
 
-The engine is classic **negamax + alpha–beta** with **quiescence search**, **MVV-LVA move ordering**, and simple **piece-square tables**. It’s fast enough for casual play and fun to tinker with, although engines in other languages have much higher elo ceilings.
+The engine is classic **negamax + alpha–beta** with **quiescence search**, **MVP-LVA move ordering**, and simple **piece-square tables**. It’s fast enough for casual play and fun to tinker with, although engines in other languages have much higher elo ceilings.
 
 ---
 
@@ -19,7 +19,7 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
 
 -  Plays legal chess from any position (FEN)  
 -  Search: negamax + alpha–beta + quiescence  
--  Move ordering: **MVV-LVA** for captures  
+-  Move ordering: **MVP-LVA** for captures  
 -  Evaluation: material + PSTs + tiny mobility nudge  
 -  Runs in a **Web Worker** (no UI jank)  
 -  Adjustable think time (ms) + max depth  
@@ -42,7 +42,7 @@ The engine is classic **negamax + alpha–beta** with **quiescence search**, **M
   - leaf → `quiescence` (captures only) to avoid horizon blunders  
 
 - **Move ordering**  
-  - Captures sorted by **Most Valuable Piece – Least Valuable Attacker (MVV-LVA)**  
+  - Captures sorted by **Most Valuable Piece – Least Valuable Attacker (MVP-LVA)**  
 
 - **Eval**  
   - Material (P=100, N=320, B=330, R=500, Q=900, K=0)  
